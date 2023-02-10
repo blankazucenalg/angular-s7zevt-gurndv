@@ -3,7 +3,8 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
-  HostListener,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { fromEvent, Subscription } from 'rxjs';
@@ -13,7 +14,7 @@ import { tap, throttleTime } from 'rxjs/operators';
   selector: '[matTooltipIfTruncated]',
 })
 export class MatTooltipIfTruncatedDirective
-  implements AfterViewInit, AfterViewChecked
+  implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy
 {
   constructor(
     private readonly matTooltip: MatTooltip,
@@ -37,21 +38,27 @@ export class MatTooltipIfTruncatedDirective
   }
 
   ngAfterViewInit(): void {
-    if (!this.defined) this.checkElement();
+    this.checkElement();
   }
 
   ngAfterViewChecked(): void {
-    if (!this.defined) this.checkElement();
+    this.checkElement();
   }
 
   checkElement() {
-    const element = this.elementRef.nativeElement;
-    // Disable tooltip if text doesn't overflow
-    if (element.scrollWidth > 0 && element.clientWidth > 0) {
-      console.log(element.scrollWidth, element.clientWidth);
-      this.matTooltip.disabled = element.scrollWidth <= element.clientWidth;
-      console.log(element, this.matTooltip.disabled ? 'disabled' : 'enabled');
-      this.defined = true;
+    if (!this.defined) {
+      const element = this.elementRef.nativeElement;
+      // Disable tooltip if text doesn't overflow
+      if (element.scrollWidth > 0 && element.clientWidth > 0) {
+        this.matTooltip.disabled = element.scrollWidth <= element.clientWidth;
+        console.log(
+          element,
+          element.scrollWidth,
+          element.clientWidth,
+          this.matTooltip.disabled ? 'disabled' : 'enabled'
+        );
+        this.defined = true;
+      }
     }
   }
 }
