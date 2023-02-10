@@ -1,0 +1,17 @@
+/** No CSS for this example */
+.custom-tooltip {
+  background-color: white;
+  border: #ddd 1px solid;
+  padding: 5px 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 2px #e2e2e2;
+  font-family: 'ProximaNovaCondensed', sans-serif;
+  color: black;
+  font-size: 14px;
+}
+
+.truncated-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

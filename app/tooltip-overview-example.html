@@ -1,0 +1,66 @@
+<ng-container *ngFor="let item of items">
+  <button
+    mat-raised-button
+    aria-label="Button that displays a tooltip when focused or hovered over"
+    customToolTip
+    [contentTemplate]="template"
+  >
+    Action
+  </button>
+</ng-container>
+
+<br />
+<hr />
+<br />
+
+<ng-container *ngFor="let item of items">
+  <button
+    mat-raised-button
+    aria-label="Button that displays a tooltip when focused or hovered over"
+    matTooltip="Tooltip text"
+  >
+    Button B
+  </button>
+</ng-container>
+
+<br />
+<hr />
+<br />
+
+<mat-tab-group>
+  <mat-tab label="First">
+    <h2>Tab 1</h2>
+  </mat-tab>
+  <mat-tab label="Second">
+    <h2>Tab 2</h2>
+    <div
+      matTooltip="Display if text truncates"
+      matTooltipPosition="above"
+      matTooltipIfTruncated
+      class="truncated-text"
+    >
+      Hola buenos dias este es un ejemplo de texto largo que deberia estar
+      truncado porque esta muy largo
+    </div>
+    <br />
+    <div
+      matTooltip="Display if text truncates"
+      matTooltipPosition="above"
+      matTooltipIfTruncated
+      class="truncated-text"
+    >
+      Este no deberia mostrar tooltip
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+<ng-template #template>
+  <div class="custom-tooltip">
+    <h4>tooltip text</h4>
+    <p>tootlip description</p>
+  </div>
+</ng-template>
+
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
