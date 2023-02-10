@@ -6,6 +6,8 @@ import {
   HostListener,
 } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
+import { fromEvent, Subscription } from 'rxjs';
+import { tap, throttleTime } from 'rxjs/operators';
 
 @Directive({
   selector: '[matTooltipIfTruncated]',
@@ -19,10 +21,19 @@ export class MatTooltipIfTruncatedDirective
   ) {}
 
   defined = false;
+  private eventSub: Subscription;
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.defined = false;
+  ngOnInit() {
+    this.eventSub = fromEvent(window, 'resize')
+      .pipe(
+        throttleTime(500), // emits once, then ignores subsequent emissions for 300ms, repeat...
+        tap((event) => (this.defined = false))
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy() {
+    this.eventSub.unsubscribe();
   }
 
   ngAfterViewInit(): void {
